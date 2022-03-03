@@ -1,7 +1,6 @@
 import pygame
 import time
-from map import create_map
-
+from map import create_map, img_grass, img_rect_grass, map_random
 
 class Player:
     def __init__(self, x_direction, y_direction, speed, speed_shot):
@@ -9,7 +8,7 @@ class Player:
         self.y = y_direction
         self.speed = speed
         self.patron = []
-        self.img_patron = pygame.image.load("img\\tank_player\\patron\\patron.png")
+        self.img_patron = pygame.image.load("img\\other\\patron\\patron.png")
         self.speed_shot = speed_shot
 
     def up(self):  # движение вверх
@@ -131,25 +130,28 @@ class Player:
                             pass
                 screen.blit(self.img_patron, i[0])
 
-    def settings(self):
-        pass
-
 
 def menu():
-    # настройка главного меню
     screen.blit(logo, (0, 0))
     pygame.display.flip()
-
-
+    print("Write a number of your tank (1 - 4)")
+    technic_firstplayer = input("1 player: ")
+    technic_secondplayer = input("2 player: ")
+    if technic_firstplayer.isdigit() == False or technic_secondplayer.isdigit() == False:
+        technic_firstplayer = 1
+        technic_secondplayer = 1
+    else:
+        technic_firstplayer = int(technic_firstplayer)
+        technic_secondplayer = int(technic_secondplayer)
+    return technic_firstplayer, technic_secondplayer
 pygame.init()
-
 width, height = 1400, 850  # ширина, высота
 screen = pygame.display.set_mode((width, height))
 
 # FPS
 clock = pygame.time.Clock()
 FPS = 60
-
+# settings
 x, y = 0, 0
 x_enemy, y_enemy = 1300, 600
 go, go_enemy = 0, 0
@@ -159,16 +161,16 @@ count_player_enemy_patron = 12
 position = "right"
 position_enemy = "left"
 
-dvigatel = pygame.image.load("Interfeic\\Dvigatel_OK.png")
-pushka = pygame.image.load("Interfeic\\Pushka_OK.png")
-gusenitsa = pygame.image.load("Interfeic\\Gysenitsa_OK.png")
-boeykladka = pygame.image.load("Interfeic\\Boeykladka_OK.png")
-pereza = pygame.image.load("Interfeic\\Perezaradka_OK.png")
-mejvod = pygame.image.load("Interfeic\\Voditel_OK.png")
+dvigatel = pygame.image.load("interface\\Dvigatel_OK.png")
+pushka = pygame.image.load("interface\\Pushka_OK.png")
+gusenitsa = pygame.image.load("interface\\Gysenitsa_OK.png")
+boeykladka = pygame.image.load("interface\\Boeykladka_OK.png")
+pereza = pygame.image.load("interface\\Perezaradka_OK.png")
+mejvod = pygame.image.load("interface\\Voditel_OK.png")
 
-info = pygame.image.load("Interfeic\\Info.png")
-hp = pygame.image.load("Interfeic\\Jisn.png")
-snarad = pygame.image.load("Interfeic\\Snarad.png")
+info = pygame.image.load("interface\\Info.png")
+hp = pygame.image.load("interface\\Jisn.png")
+snarad = pygame.image.load("interface\\Snarad.png")
 
 box = pygame.image.load("img\\texture\\box.png")
 wall = pygame.image.load("img\\texture\\wall.png")
@@ -186,36 +188,20 @@ pygame.mixer.music.load("img\\texture\\Intro.mp3")
 pygame.mixer.music.set_volume(volume)
 pygame.mixer.music.play(loops=-1)
 
-menu()  # отрисовка меню
+technic_firstplayer, technic_secondplayer = menu()  # отрисовка меню
 
-print("Write a number of your tank (1 - 4)")
+tank_first_player_top = pygame.image.load("img\\firstplayer\\Tank-" + str(technic_firstplayer) + "_1pl.png")
+tank_first_player_bottom = pygame.image.load("img\\firstplayer\\Tank-" + str(technic_firstplayer) + "_1pl_d.png")
+tank_first_player_right = pygame.image.load("img\\firstplayer\\Tank-" + str(technic_firstplayer) + "_1pl_r.png")
+tank_first_player_left = pygame.image.load("img\\firstplayer\\Tank-" + str(technic_firstplayer) + "_1pl_l.png")
 
-pl_1 = input("1 player: ")
-pl_2 = input("2 player: ")
-if pl_1.isdigit() == False or pl_2.isdigit() == False:
-    pl_1 = 1
-    pl_2 = 1
-else:
-    pl_1 = int(pl_1)
-    pl_2 = int(pl_2)
-for i in range(1, 101):
-    print("Loading... " + str(i) + "%")
-    time.sleep(0.05)
-# конец настройки
-
-tank_first_player_top = pygame.image.load("img\\1 player\\Tank-" + str(pl_1) + "_1pl.png")
-tank_first_player_bottom = pygame.image.load("img\\1 player\\Tank-" + str(pl_1) + "_1pl_d.png")
-tank_first_player_right = pygame.image.load("img\\1 player\\Tank-" + str(pl_1) + "_1pl_r.png")
-tank_first_player_left = pygame.image.load("img\\1 player\\Tank-" + str(pl_1) + "_1pl_l.png")
-
-tank_second_player_top = pygame.image.load("img\\2 player\\Tank-" + str(pl_2) + "_2pl.png")
-tank_second_player_bottom = pygame.image.load("img\\2 player\\Tank-" + str(pl_2) + "_2pl_d.png")
-tank_second_player_right = pygame.image.load("img\\2 player\\Tank-" + str(pl_2) + "_2pl_r.png")
-tank_second_player_left = pygame.image.load("img\\2 player\\Tank-" + str(pl_2) + "_2pl_l.png")
-
+tank_second_player_top = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl.png")
+tank_second_player_bottom = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl_d.png")
+tank_second_player_right = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl_r.png")
+tank_second_player_left = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl_l.png")
 volumee = 0.7
-# настройка музыки и фона для разных карт
-from map import img_2, img_rect_2, map_random
+
+# настройка карт
 map_bg = "img\\texture\\Grass.jpg"
 if map_random == "1":
     pygame.mixer.music.load("snd\\Map1_battle.mp3")
@@ -233,13 +219,13 @@ elif map_random == "3":
     pygame.mixer.music.play(loops=-1)
     map_bg = "img\\texture\\Grass.jpg"
 
-map_o = pygame.image.load(map_bg)
+map_fill = pygame.image.load(map_bg)
 
-ynichtogen = pygame.mixer.Sound("snd\\Probitie.mp3")
+destruction = pygame.mixer.Sound("snd\\Probitie.mp3")
 shot = pygame.mixer.Sound("snd\\f4ee46bb060c102.mp3")
 probitie = pygame.mixer.Sound("snd\\1.mp3")
 shot.set_volume(volume)
-ynichtogen.set_volume(volume)
+destruction.set_volume(volume)
 probitie.set_volume(volume)
 
 pygame.mixer.Channel(0).play(pygame.mixer.Sound("snd\\zvuk-zavedennogo-tanka-motora-12255.mp3"))
@@ -264,7 +250,6 @@ score_player_enemy = 0
 # объекты карты
 img_rect = create_map()[0]
 img = create_map()[1]
-
 
 # Текст
 font = pygame.font.SysFont('Consolas', 20)
@@ -624,7 +609,7 @@ while running:
                 move_left_enemy = False
                 go_enemy -= 1
 
-    screen.blit(map_o, (0, 0))  # заливка экрана
+    screen.blit(map_fill, (0, 0))  # заливка экрана
 
     pygame.draw.rect(screen, [80, 80, 80], [0, 700, width, 150])
     # движение объектов
@@ -713,14 +698,12 @@ while running:
             screen.blit(box, i)
         elif img[img_rect.index(i)] == "wall":
             screen.blit(wall, i)
-        elif img[img_rect.index(i)] == "grass":
-            screen.blit(grass, i)
         elif img[img_rect.index(i)] == "water":
             screen.blit(water, i)
 
     # отрисовка травы
-    for i in img_rect_2:
-        if img_2[img_rect_2.index(i)] == "grass":
+    for i in img_rect_grass:
+        if img_grass[img_rect_grass.index(i)] == "grass":
             screen.blit(grass, i)
 
     # отрисовка нижней части
@@ -736,7 +719,7 @@ while running:
                 probitie.play()
             elif player_hp == 1:
                 player_hp -= 1
-                ynichtogen.play()
+                destruction.play()
 
     # проверка на столкновение
     for i in player.patron:
@@ -746,7 +729,7 @@ while running:
                 probitie.play()
             elif player_enemy_hp == 1:
                 player_enemy_hp -= 1
-                ynichtogen.play()
+                destruction.play()
 
     # отображение элементов нижней панели
     steep = 0
