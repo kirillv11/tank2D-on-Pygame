@@ -26,7 +26,7 @@
     back: s
     right: d
     left: a
-    Shooting: space bar
+    Shooting: space
     
   2 player:
     forward: up arrow
