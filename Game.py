@@ -1,6 +1,6 @@
 import pygame
-import time
-from map import create_map, img_grass, img_rect_grass, map_random
+from map import create_map, img_grass, img_rect_grass, num_of_map
+
 
 class Player:
     def __init__(self, x_direction, y_direction, speed, speed_shot):
@@ -92,10 +92,7 @@ class Player:
                         self.patron.pop(self.patron.index(i))
                 for j in img_rect:
                     if j.colliderect(i[0]):
-                        try:
-                            self.patron.pop(self.patron.index(i))
-                        except:
-                            pass
+                        self.patron.pop(self.patron.index(i))
 
                 screen.blit(self.img_patron, i[0])
         elif types == 2:
@@ -124,10 +121,8 @@ class Player:
                         self.patron.pop(self.patron.index(i))
                 for j in img_rect:
                     if j.colliderect(i[0]):
-                        try:
-                            self.patron.pop(self.patron.index(i))
-                        except:
-                            pass
+                        self.patron.pop(self.patron.index(i))
+
                 screen.blit(self.img_patron, i[0])
 
 
@@ -137,13 +132,15 @@ def menu():
     print("Write a number of your tank (1 - 4)")
     technic_firstplayer = input("1 player: ")
     technic_secondplayer = input("2 player: ")
-    if technic_firstplayer.isdigit() == False or technic_secondplayer.isdigit() == False:
+    if not technic_firstplayer.isdigit() or not technic_secondplayer.isdigit():
         technic_firstplayer = 1
         technic_secondplayer = 1
     else:
         technic_firstplayer = int(technic_firstplayer)
         technic_secondplayer = int(technic_secondplayer)
     return technic_firstplayer, technic_secondplayer
+
+
 pygame.init()
 width, height = 1400, 850  # ширина, высота
 screen = pygame.display.set_mode((width, height))
@@ -160,13 +157,6 @@ count_player_patron = 12
 count_player_enemy_patron = 12
 position = "right"
 position_enemy = "left"
-
-dvigatel = pygame.image.load("interface\\Dvigatel_OK.png")
-pushka = pygame.image.load("interface\\Pushka_OK.png")
-gusenitsa = pygame.image.load("interface\\Gysenitsa_OK.png")
-boeykladka = pygame.image.load("interface\\Boeykladka_OK.png")
-pereza = pygame.image.load("interface\\Perezaradka_OK.png")
-mejvod = pygame.image.load("interface\\Voditel_OK.png")
 
 info = pygame.image.load("interface\\Info.png")
 hp = pygame.image.load("interface\\Jisn.png")
@@ -201,25 +191,23 @@ tank_second_player_right = pygame.image.load("img\\secondplayer\\Tank-" + str(te
 tank_second_player_left = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl_l.png")
 volumee = 0.7
 
-# настройка карт
-map_bg = "img\\texture\\Grass.jpg"
-if map_random == "1":
-    pygame.mixer.music.load("snd\\Map1_battle.mp3")
-    pygame.mixer.music.set_volume(volumee)
-    pygame.mixer.music.play(loops=-1)
-    map_bg = "img\\texture\\As.jpg"
-elif map_random == "2":
-    pygame.mixer.music.load("snd\\Map2_battle.mp3")
-    pygame.mixer.music.set_volume(volumee)
-    pygame.mixer.music.play(loops=-1)
-    map_bg = "img\\texture\\Grass.jpg"
-elif map_random == "3":
-    pygame.mixer.music.load("snd\\Map3_battle.mp3")
-    pygame.mixer.music.set_volume(volumee)
-    pygame.mixer.music.play(loops=-1)
-    map_bg = "img\\texture\\Grass.jpg"
+match num_of_map:
+    case '1':
+        pygame.mixer.music.load("snd\\Map1_battle.mp3")
+        pygame.mixer.music.set_volume(volumee)
+        pygame.mixer.music.play(loops = -1)
+        map_fill = pygame.image.load("img\\texture\\As.jpg")
+    case '2':
+        pygame.mixer.music.load("snd\\Map2_battle.mp3")
+        pygame.mixer.music.set_volume(volumee)
+        pygame.mixer.music.play(loops=-1)
+        map_fill = pygame.image.load("img\\texture\\Grass.jpg")
+    case '3':
+        pygame.mixer.music.load("snd\\Map3_battle.mp3")
+        pygame.mixer.music.set_volume(volumee)
+        pygame.mixer.music.play(loops=-1)
+        map_fill = pygame.image.load("img\\texture\\Grass.jpg")
 
-map_fill = pygame.image.load(map_bg)
 
 destruction = pygame.mixer.Sound("snd\\Probitie.mp3")
 shot = pygame.mixer.Sound("snd\\f4ee46bb060c102.mp3")
@@ -774,19 +762,6 @@ while running:
     score = font_score.render(f"{str(score_player)} : {str(score_player_enemy)}", True, (255, 255, 255))
     screen.blit(score, (650, 10))
 
-    # отрисовка модулей
-    screen.blit(dvigatel, (490, 705))
-    screen.blit(gusenitsa, (535, 705))
-    screen.blit(pushka, (580, 710))
-    screen.blit(boeykladka, (630, 705))
-    screen.blit(pereza, (525, 750))
-    screen.blit(mejvod, (590, 750))
-    screen.blit(dvigatel, (725, 705))
-    screen.blit(gusenitsa, (770, 705))
-    screen.blit(pushka, (815, 710))
-    screen.blit(boeykladka, (865, 705))
-    screen.blit(pereza, (755, 750))
-    screen.blit(mejvod, (820, 750))
     pygame.display.flip()
 
 pygame.quit()
