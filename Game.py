@@ -1,4 +1,5 @@
 import pygame
+from time import ctime
 from map import create_map, img_grass, img_rect_grass, num_of_map
 
 
@@ -767,6 +768,8 @@ while running:
 pygame.quit()
 
 # подсчёт очков
-with open("score.txt", "r+") as file:
-    file.write(f"{str(score_player)} : {str(score_player_enemy)}")
-    file.close()
+with open("score.txt", '+a', encoding = 'utf-8') as file:
+	file.write(
+		f"[{ctime()}] -> {score_player}:{score_player_enemy} (FirstPlayer:SecondPlayer)\n"
+	)
+
