@@ -16,7 +16,7 @@ class Player:
 		self.speed_shot = speed_shot
 
 	def up( self ):  # go up
-		if self.y > 0:
+		if self.y >= 0:
 			self.y -= self.speed
 
 	def down( self ):  # go down
@@ -28,7 +28,7 @@ class Player:
 			self.x += self.speed
 
 	def left( self ):  # go left
-		if self.x > 0:
+		if self.x >= 0:
 			self.x -= self.speed
 
 	def draw( self, adress ):
@@ -38,62 +38,62 @@ class Player:
 
 	def shot( self, direction, types ):
 		"""the function is responsible for shots"""
-		match types:
-			case 1:
-				if direction == "right":
-					patron_rect = pygame.Rect(self.x + 75, self.y + 26, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "left":
-					patron_rect = pygame.Rect(self.x - 12, self.y + 26, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "up":
-					patron_rect = pygame.Rect(self.x + 26, self.y - 12, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "down":
-					patron_rect = pygame.Rect(self.x + 26, self.y + 75, 14, 14)
-					self.patron.append([patron_rect, direction])
-			case 2:
-				if direction == "right":
-					patron_rect = pygame.Rect(self.x + 100, self.y + 34, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "left":
-					patron_rect = pygame.Rect(self.x, self.y + 32, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "up":
-					patron_rect = pygame.Rect(self.x + 34, self.y, 14, 14)
-					self.patron.append([patron_rect, direction])
-				if direction == "down":
-					patron_rect = pygame.Rect(self.x + 32, self.y + 100, 14, 14)
-					self.patron.append([patron_rect, direction])
+		if types == 1:
+			if direction == "right":
+				patron_rect = pygame.Rect(self.x + 75, self.y + 26, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "left":
+				patron_rect = pygame.Rect(self.x - 12, self.y + 26, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "up":
+				patron_rect = pygame.Rect(self.x + 26, self.y - 12, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "down":
+				patron_rect = pygame.Rect(self.x + 26, self.y + 75, 14, 14)
+				self.patron.append([patron_rect, direction])
+		if types == 2:
+			if direction == "right":
+				patron_rect = pygame.Rect(self.x + 100, self.y + 34, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "left":
+				patron_rect = pygame.Rect(self.x, self.y + 32, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "up":
+				patron_rect = pygame.Rect(self.x + 34, self.y, 14, 14)
+				self.patron.append([patron_rect, direction])
+			if direction == "down":
+				patron_rect = pygame.Rect(self.x + 32, self.y + 100, 14, 14)
+				self.patron.append([patron_rect, direction])
 
 	def shot_draw( self ):
 		for patron_object in self.patron:
 			del_flag = False
-			match patron_object[1]:
-				case 'right':
-					if patron_object[0].x < 1382:
-						patron_object[0].x += self.speed_shot
-					else:
-						del_flag = True
-				case 'left':
-					if patron_object[0].x > 0:
-						patron_object[0].x -= self.speed_shot
-					else:
-						del_flag = True
-				case 'up':
-					if patron_object[0].y > 0:
-						patron_object[0].y -= self.speed_shot
-					else:
-						del_flag = True
-				case 'down':
-					if patron_object[0].y < 682:
-						patron_object[0].y += self.speed_shot
-					else:
-						del_flag = True
+			if patron_object[1] == 'right':
+				if patron_object[0].x < 1382:
+					patron_object[0].x += self.speed_shot
+				else:
+					del_flag = True
+			if patron_object[1] == 'left':
+				if patron_object[0].x > 0:
+					patron_object[0].x -= self.speed_shot
+				else:
+					del_flag = True
+			if patron_object[1] == 'up':
+				if patron_object[0].y > 0:
+					patron_object[0].y -= self.speed_shot
+				else:
+					del_flag = True
+			if patron_object[1] == 'down':
+				if patron_object[0].y < 682:
+					patron_object[0].y += self.speed_shot
+				else:
+					del_flag = True
+
 			if not del_flag:
 				for rect in img_rect:
 					if rect.colliderect(patron_object[0]):
 						del_flag = True
+
 			if del_flag:
 				self.patron.remove(patron_object)
 			else:
@@ -162,22 +162,21 @@ tank_second_player_right = pygame.image.load("img\\secondplayer\\Tank-" + str(te
 tank_second_player_left = pygame.image.load("img\\secondplayer\\Tank-" + str(technic_secondplayer) + "_2pl_l.png")
 volumee = 0.7
 
-match num_of_map:
-	case '1':
-		pygame.mixer.music.load("snd\\Map1_battle.mp3")
-		pygame.mixer.music.set_volume(volumee)
-		pygame.mixer.music.play(loops = -1)
-		map_fill = pygame.image.load("img\\texture\\As.jpg")
-	case '2':
-		pygame.mixer.music.load("snd\\Map2_battle.mp3")
-		pygame.mixer.music.set_volume(volumee)
-		pygame.mixer.music.play(loops = -1)
-		map_fill = pygame.image.load("img\\texture\\Grass.jpg")
-	case '3':
-		pygame.mixer.music.load("snd\\Map3_battle.mp3")
-		pygame.mixer.music.set_volume(volumee)
-		pygame.mixer.music.play(loops = -1)
-		map_fill = pygame.image.load("img\\texture\\Grass.jpg")
+if num_of_map == '1':
+	pygame.mixer.music.load("snd\\Map1_battle.mp3")
+	pygame.mixer.music.set_volume(volumee)
+	pygame.mixer.music.play(loops = -1)
+	map_fill = pygame.image.load("img\\texture\\As.jpg")
+if num_of_map == '2':
+	pygame.mixer.music.load("snd\\Map2_battle.mp3")
+	pygame.mixer.music.set_volume(volumee)
+	pygame.mixer.music.play(loops = -1)
+	map_fill = pygame.image.load("img\\texture\\Grass.jpg")
+if num_of_map == '3':
+	pygame.mixer.music.load("snd\\Map3_battle.mp3")
+	pygame.mixer.music.set_volume(volumee)
+	pygame.mixer.music.play(loops = -1)
+	map_fill = pygame.image.load("img\\texture\\Grass.jpg")
 
 destruction = pygame.mixer.Sound("snd\\Probitie.mp3")
 shot = pygame.mixer.Sound("snd\\f4ee46bb060c102.mp3")
@@ -226,7 +225,7 @@ font_patron_ready_player_enemy = pygame.font.SysFont('Consolas', 20)
 patron_ready_player_enemy = font_patron_ready_player_enemy.render('нет патрон', True, (255, 255, 255))
 
 
-def conflict( direction, types ):
+def conflict( direction, types):
 	"""
 		функции проверяющяя столкновения
 	"""
@@ -480,6 +479,7 @@ count2 = font.render(str(reload_enemy), True, (255, 255, 255))
 running = True
 while running:
 	clock.tick(FPS)
+
 	# настройка перезарядки
 	if reload != 300:
 		reload += 1
@@ -487,90 +487,88 @@ while running:
 		reload_enemy += 1
 
 	for event in pygame.event.get():
-		match event.type:
-			case pygame.QUIT:
-				running = False
-			case pygame.KEYDOWN:
-				match event.key:
-					case pygame.K_w:
-						move_up = True
-						go += 1
-					case pygame.K_s:
-						move_down = True
-						go += 1
-					case pygame.K_d:
-						move_right = True
-						go += 1
-					case pygame.K_a:
-						move_left = True
-						go += 1
-					case pygame.K_UP:
-						move_up_enemy = True
-						go_enemy += 1
-					case pygame.K_DOWN:
-						move_down_enemy = True
-						go_enemy += 1
-					case pygame.K_RIGHT:
-						move_right_enemy = True
-						go_enemy += 1
-					case pygame.K_LEFT:
-						move_left_enemy = True
-						go_enemy += 1
-					case pygame.K_p:
-						pygame.mixer.music.pause()
-					case pygame.K_o:
-						pygame.mixer.music.unpause()
-					case pygame.K_PAGEUP:
-						volume += 0.1
-						shot.set_volume(volume)
-						pygame.mixer.music.set_volume(volume)
-					case pygame.K_PAGEDOWN:
-						volume -= 0.1
-						shot.set_volume(volume)
-						pygame.mixer.music.set_volume(volume)
-					case pygame.K_SPACE:
-						if FirstPlayer.count_patron > 0 and reload == 300:
-							FirstPlayer.shot(FirstPlayer.tank_direction, 1)
-							FirstPlayer.count_patron -= 1
-							shot.play()
-							reload = 0
-			case pygame.MOUSEBUTTONDOWN:  # стрельба
-				if event.button == 1:
-					if SecondPlayer.count_patron > 0 and reload_enemy == 300:
-						SecondPlayer.shot(SecondPlayer.tank_direction, 2)
-						SecondPlayer.count_patron -= 1
-						shot.play()
-						reload_enemy = 0
-			case pygame.KEYUP:
-				match event.key:
-					case pygame.K_w:
-						move_up = False
-						go -= 1
-					case pygame.K_s:
-						move_down = False
-						go -= 1
-					case pygame.K_d:
-						move_right = False
-						go -= 1
-					case pygame.K_a:
-						move_left = False
-						go -= 1
-					case pygame.K_UP:
-						move_up_enemy = False
-						go_enemy -= 1
-					case pygame.K_DOWN:
-						move_down_enemy = False
-						go_enemy -= 1
-					case pygame.K_RIGHT:
-						move_right_enemy = False
-						go_enemy -= 1
-					case pygame.K_LEFT:
-						move_left_enemy = False
-						go_enemy -= 1
+		if event.type == pygame.QUIT:
+			running = False
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_w:
+				move_up = True
+				go += 1
+			if event.key == pygame.K_s:
+				move_down = True
+				go += 1
+			if event.key == pygame.K_d:
+				move_right = True
+				go += 1
+			if event.key == pygame.K_a:
+				move_left = True
+				go += 1
+			if event.key == pygame.K_SPACE:  # стрельба
+				if FirstPlayer.count_patron > 0 and reload == 300:
+					FirstPlayer.shot(FirstPlayer.tank_direction, 1)
+					FirstPlayer.count_patron -= 1
+					shot.play()
+					reload = 0
+			if event.key == pygame.K_UP:
+				move_up_enemy = True
+				go_enemy += 1
+			if event.key == pygame.K_DOWN:
+				move_down_enemy = True
+				go_enemy += 1
+			if event.key == pygame.K_RIGHT:
+				move_right_enemy = True
+				go_enemy += 1
+			if event.key == pygame.K_LEFT:
+				move_left_enemy = True
+				go_enemy += 1
+			if event.key == pygame.K_p:  # пауза
+				pygame.mixer.music.pause()
+			if event.key == pygame.K_o:  # продолжение проигрывания
+				pygame.mixer.music.unpause()
+			if event.key == pygame.K_PAGEUP:  # регулировка громкости(громче)
+				volume += 0.1
+				shot.set_volume(volume)
+				pygame.mixer.music.set_volume(volume)
+			if event.key == pygame.K_PAGEDOWN:  # регулировка громкости(тише)
+				volume -= 0.1
+				shot.set_volume(volume)
+				pygame.mixer.music.set_volume(volume)
+		if event.type == pygame.MOUSEBUTTONDOWN:  # стрельба
+			if event.button == 1:
+				if SecondPlayer.count_patron > 0 and reload_enemy == 300:
+					SecondPlayer.shot(SecondPlayer.tank_direction, 2)
+					SecondPlayer.count_patron -= 1
+					shot.play()
+					reload_enemy = 0
+		if event.type == pygame.KEYUP:
+			if event.key == pygame.K_w:
+				move_up = False
+				go -= 1
+			if event.key == pygame.K_s:
+				move_down = False
+				go -= 1
+			if event.key == pygame.K_d:
+				move_right = False
+				go -= 1
+			if event.key == pygame.K_a:
+				move_left = False
+				go -= 1
 
-	screen.blit(map_fill, (0, 0))  # заливка экрана
+			if event.key == pygame.K_UP:
+				move_up_enemy = False
+				go_enemy -= 1
+			if event.key == pygame.K_DOWN:
+				move_down_enemy = False
+				go_enemy -= 1
+			if event.key == pygame.K_RIGHT:
+				move_right_enemy = False
+				go_enemy -= 1
+			if event.key == pygame.K_LEFT:
+				move_left_enemy = False
+				go_enemy -= 1
 
+	screen.blit(map_fill, (0, 0))
 	pygame.draw.rect(screen, [80, 80, 80], [0, 700, width, 150])
+
 	# движение объектов
 	if move_up and go == 1:
 		FirstPlayer.tank_direction = 'up'
