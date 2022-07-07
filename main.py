@@ -101,7 +101,7 @@ class Player:
 
 
 def menu():
-   screen.blit(logo, (0, 0))
+	screen.blit(logo, (0, 0))
 	pygame.display.flip()
 	print("Write a number of your tank (1 - 4)")
 	technic_firstplayer = input("1 player: ")
