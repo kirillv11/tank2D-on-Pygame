@@ -101,7 +101,7 @@ class Player:
 
 
 def menu():
-	screen.blit(logo, (0, 0))
+   screen.blit(logo, (0, 0))
 	pygame.display.flip()
 	print("Write a number of your tank (1 - 4)")
 	technic_firstplayer = input("1 player: ")
@@ -126,8 +126,6 @@ FPS = 60
 # settings
 fx, fy, sx, sy = 0, 0, 1300, 600
 go, go_enemy = 0, 0
-#position = "right"
-#position_enemy = "left"
 
 info = pygame.image.load("interface\\Info.png")
 hp = pygame.image.load("interface\\Jisn.png")
@@ -148,6 +146,7 @@ volume = 0.5
 pygame.mixer.music.load("img\\texture\\Intro.mp3")
 pygame.mixer.music.set_volume(volume)
 pygame.mixer.music.play(loops = -1)
+
 
 technic_firstplayer, technic_secondplayer = menu()  # отрисовка меню
 
@@ -200,6 +199,7 @@ collision_first = pygame.Rect(FirstPlayer.x, FirstPlayer.y, tank_first_player_ri
 							  tank_second_player_right.get_height())
 collision_second = pygame.Rect(SecondPlayer.x, SecondPlayer.y, tank_second_player_right.get_width(),
 							   tank_second_player_right.get_height())
+
 # очки
 score_player = 0
 score_player_enemy = 0
