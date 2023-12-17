@@ -1,42 +1,70 @@
 import pygame
 
 
-class Player:
-  def __init__(self, x_direction, y_direction, direction, speed, health, speed_shot, count_patron, screen, img_rect):
-    self.x = x_direction
-    self.y = y_direction
-    self.direction = direction
-    self.count_patron = count_patron
-    self.health = health
-    self.speed = speed
+class PlayerImage:
+  def __init__(self, tank_type: int = 1):
+    self.forward = pygame.image.load(
+      "resources/image/first_player/Tank-" + str(tank_type) + "_1pl.png"
+    )
+    # .set_colorkey((255, 255, 255))
+    self.bottom = pygame.image.load(
+      "resources/image/first_player/Tank-" + str(tank_type) + "_1pl_d.png"
+    )
+    self.right = pygame.image.load(
+      "resources/image/first_player/Tank-" + str(tank_type) + "_1pl_r.png"
+    )
+    self.left = pygame.image.load(
+      "resources/image/first_player/Tank-" + str(tank_type) + "_1pl_l.png"
+    )
+
+
+class Player(PlayerImage):
+  def __init__(self, x: int, y: int, direction: str, speed: int, health: int, speed_shot: int, count_patron: int,
+               tank_type: int = 1):
+    super().__init__(tank_type)
+    self.x: int = x
+    self.y: int = y
+    self.direction: str = direction
+    self.count_patron: int = count_patron
+    self.health: int = health
+    self.speed: int = speed
     self.patron = []
     self.img_patron = pygame.image.load("resources/image/other/patron/patron.png")
     self.speed_shot = speed_shot
     self.score: int = 0
-    self.screen = screen
-    self.img_rect = img_rect
-    self.reload = 0
+    self.reload: int = 0
+    self.rect_collision = pygame.Rect(self.x, self.y, self.right.get_width(), self.right.get_height())
 
-  def up(self):  # go up
+  def go_up(self):  # go up
     if self.y >= 0:
       self.y -= self.speed
 
-  def down(self):  # go down
+  def go_down(self):  # go down
     if self.y < 620:
       self.y += self.speed
 
-  def right(self):  # go right
+  def go_right(self):  # go right
     if self.x < 1320:
       self.x += self.speed
 
-  def left(self):  # go left
+  def go_left(self):  # go left
     if self.x >= 0:
       self.x -= self.speed
 
-  def draw(self, adress):
+  def draw(self, screen):
     """this function is responsible for rendering the player"""
-    adress.set_colorkey((255, 255, 255))
-    self.screen.blit(adress, (self.x, self.y))
+    if self.direction == "up":
+      screen.blit(self.forward, (self.x, self.y))
+      self.rect_collision = pygame.Rect(self.x, self.y, self.forward.get_width(), self.forward.get_height())
+    if self.direction == "right":
+      screen.blit(self.right, (self.x, self.y))
+      self.rect_collision = pygame.Rect(self.x, self.y, self.right.get_width(), self.right.get_height())
+    if self.direction == "left":
+      screen.blit(self.left, (self.x, self.y))
+      self.rect_collision = pygame.Rect(self.x, self.y, self.left.get_width(), self.left.get_height())
+    if self.direction == "down":
+      screen.blit(self.bottom, (self.x, self.y))
+      self.rect_collision = pygame.Rect(self.x, self.y, self.bottom.get_width(), self.bottom.get_height())
 
   def shot(self, direction, types):
     """the function is responsible for shots"""
@@ -67,7 +95,7 @@ class Player:
         patron_rect = pygame.Rect(self.x + 32, self.y + 100, 14, 14)
         self.patron.append([patron_rect, direction])
 
-  def shot_draw(self):
+  def shot_draw(self, screen, img_rect):
     for patron_object in self.patron:
       del_flag = False
       if patron_object[1] == 'right':
@@ -92,11 +120,11 @@ class Player:
           del_flag = True
 
       if not del_flag:
-        for rect in self.img_rect:
+        for rect in img_rect:
           if rect.colliderect(patron_object[0]):
             del_flag = True
 
       if del_flag:
         self.patron.remove(patron_object)
       else:
-        self.screen.blit(self.img_patron, patron_object[0])
+        screen.blit(self.img_patron, patron_object[0])

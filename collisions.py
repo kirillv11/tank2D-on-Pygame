@@ -2,7 +2,7 @@ import pygame
 from config import Settings
 
 
-def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, collision_second, img_rect):
+def collision(direction, types, FirstPlayer, SecondPlayer, img_rect):
   """
     Функция, проверяющая столкновения
   """
@@ -22,9 +22,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_second) or \
-          line_left.colliderect(collision_second) or \
-          line_right.colliderect(collision_second):
+        if line.colliderect(SecondPlayer.rect_collision) or \
+          line_left.colliderect(SecondPlayer.rect_collision) or \
+          line_right.colliderect(SecondPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -32,7 +32,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               flag = True
               break
       if abs(int(FirstPlayer.y - line_y_right)) > 5:
-        FirstPlayer.up()
+        FirstPlayer.go_up()
     elif direction == 'down':
       line_x, line_y = FirstPlayer.x + 32, FirstPlayer.y + 75
       line_x_right, line_y_right = FirstPlayer.x + 64, FirstPlayer.y + 75
@@ -50,9 +50,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
         s.append(line_right)
-        if line.colliderect(collision_second) or \
-          line_left.colliderect(collision_second) or \
-          line_right.colliderect(collision_second):
+        if line.colliderect(SecondPlayer.rect_collision) or \
+          line_left.colliderect(SecondPlayer.rect_collision) or \
+          line_right.colliderect(SecondPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -61,7 +61,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               break
 
       if abs(int(line_y_before - line_y_right)) > 25:
-        FirstPlayer.down()
+        FirstPlayer.go_down()
     elif direction == 'right':
       line_x, line_y = FirstPlayer.x + 80, FirstPlayer.y + 32
       line_x_right, line_y_right = FirstPlayer.x + 80, FirstPlayer.y
@@ -77,9 +77,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_second) or \
-          line_left.colliderect(collision_second) or \
-          line_right.colliderect(collision_second):
+        if line.colliderect(SecondPlayer.rect_collision) or \
+          line_left.colliderect(SecondPlayer.rect_collision) or \
+          line_right.colliderect(SecondPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -88,7 +88,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               break
 
       if abs(int(line_x_before - line_x_right)) > 70:
-        FirstPlayer.right()
+        FirstPlayer.go_right()
     elif direction == 'left':
       line_x, line_y = FirstPlayer.x - 12, FirstPlayer.y + 32
       line_x_right, line_y_right = FirstPlayer.x - 12, FirstPlayer.y
@@ -104,9 +104,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_second) or \
-          line_left.colliderect(collision_second) or \
-          line_right.colliderect(collision_second):
+        if line.colliderect(SecondPlayer.rect_collision) or \
+          line_left.colliderect(SecondPlayer.rect_collision) or \
+          line_right.colliderect(SecondPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -116,9 +116,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
       if abs(line_x_before - line_x) > 1 and abs(int(line_x_before - line_x_right)) > 1 and abs(
         int(line_x_before - line_x_left)
       ) > 1:
-        FirstPlayer.left()
+        FirstPlayer.go_left()
         for rect in img_rect:
-          if collision_first.colliderect(rect):
+          if FirstPlayer.rect_collision.colliderect(rect):
             FirstPlayer.x -= 0.01
             break
   elif types == 2:
@@ -139,9 +139,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_first) or \
-          line_left.colliderect(collision_first) or \
-          line_right.colliderect(collision_first):
+        if line.colliderect(FirstPlayer.rect_collision) or \
+          line_left.colliderect(FirstPlayer.rect_collision) or \
+          line_right.colliderect(FirstPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -149,7 +149,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               flag = True
               break
       if abs(int(line_y_before - line_y_right)) > 1:
-        SecondPlayer.up()
+        SecondPlayer.go_up()
 
     elif direction == 'down':
       line_x, line_y = SecondPlayer.x + 38, SecondPlayer.y + 100
@@ -168,9 +168,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_first) or \
-          line_left.colliderect(collision_first) or \
-          line_right.colliderect(collision_first):
+        if line.colliderect(FirstPlayer.rect_collision) or \
+          line_left.colliderect(FirstPlayer.rect_collision) or \
+          line_right.colliderect(FirstPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -178,7 +178,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               flag = True
               break
       if abs(int(line_y_before - line_y_right)) > 20:
-        SecondPlayer.down()
+        SecondPlayer.go_down()
     elif direction == 'right':
       line_x, line_y = SecondPlayer.x + 100, SecondPlayer.y + 38
       line_x_right, line_y_right = SecondPlayer.x + 100, SecondPlayer.y + 79
@@ -194,9 +194,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_first) or \
-          line_left.colliderect(collision_first) or \
-          line_right.colliderect(collision_first):
+        if line.colliderect(FirstPlayer.rect_collision) or \
+          line_left.colliderect(FirstPlayer.rect_collision) or \
+          line_right.colliderect(FirstPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -204,7 +204,7 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               flag = True
               break
       if abs(int(line_x_before - line_x_right)) > 20:
-        SecondPlayer.right()
+        SecondPlayer.go_right()
     elif direction == 'left':
       line_x, line_y = SecondPlayer.x + 15, SecondPlayer.y + 38
       line_x_right, line_y_right = SecondPlayer.x + 15, SecondPlayer.y + 79
@@ -220,9 +220,9 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
         line = pygame.Rect(line_x, line_y, 1, 1)
         line_right = pygame.Rect(line_x_right, line_y_right, 1, 1)
         line_left = pygame.Rect(line_x_left, line_y_left, 1, 1)
-        if line.colliderect(collision_first) or \
-          line_left.colliderect(collision_first) or \
-          line_right.colliderect(collision_first):
+        if line.colliderect(FirstPlayer.rect_collision) or \
+          line_left.colliderect(FirstPlayer.rect_collision) or \
+          line_right.colliderect(FirstPlayer.rect_collision):
           flag = True
         else:
           for j in img_rect:
@@ -230,4 +230,4 @@ def collision(direction, types, FirstPlayer, SecondPlayer, collision_first, coll
               flag = True
               break
       if abs(int(line_x_before - line_x_right)) > 20:
-        SecondPlayer.left()
+        SecondPlayer.go_left()
