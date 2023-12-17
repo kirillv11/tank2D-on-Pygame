@@ -7,30 +7,15 @@ from load_texture import *
 from load_font import *
 from collisions import collision
 from player import Player
-from functions import record_points, draw_score
+from functions import record_points, draw_score, menu
 
 
 def main():
   screen = pygame.display.set_mode((Settings.width, Settings.height))
   clock = pygame.time.Clock()
 
-  def menu():
-    screen.blit(logo, (0, 0))
-    pygame.display.flip()
-    print("Write a number of your tank (1 - 4)")
-    technic_first_player = input("1 player: ")
-    technic_second_player = input("2 player: ")
-    if not technic_second_player in [1, 2, 3, 4] or not technic_first_player in [1, 2, 3, 4]:
-      technic_first_player = 1
-      technic_second_player = 1
-    else:
-      technic_first_player = int(technic_first_player)
-      technic_second_player = int(technic_second_player)
-    return technic_first_player, technic_second_player
-
   img_rect, img, img_rect_grass, img_grass = create_map()
-
-  first_player_type_tank, second_player_type_tank = menu()  # отрисовка меню
+  first_player_type_tank, second_player_type_tank = menu(screen, logo)
 
   # инициализация классов
   FirstPlayer = Player(
@@ -52,21 +37,19 @@ def main():
   pygame.mixer.music.set_volume(volume)
   pygame.mixer.music.play(loops=-1)
 
-  volume = 0.7
-
   if Settings.number_map == 1:
     pygame.mixer.music.load("resources/sounds/Map1_battle.mp3")
-    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(loops=-1)
     map_fill = pygame.image.load("resources/image/texture/concrete.jpg")
   if Settings.number_map == 2:
     pygame.mixer.music.load("resources/sounds/Map2_battle.mp3")
-    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(loops=-1)
     map_fill = pygame.image.load("resources/image/texture/grass.jpg")
   if Settings.number_map == 3:
     pygame.mixer.music.load("resources/sounds/Map3_battle.mp3")
-    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(loops=-1)
     map_fill = pygame.image.load("resources/image/texture/grass.jpg")
 
